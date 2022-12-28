@@ -1,0 +1,28 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Pesquisar</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-searchbar [debounce]="500" placeholder="Digite o número da ordem de serviço ou o nome do cliente" animated="true" (ionChange)="pesquisaOrdemServico($event)"></ion-searchbar>
+
+            <ion-list *ngIf="dadosOrdemServicoFiltrado">
+              <ion-item *ngFor="let ordensServico of dadosOrdemServicoFiltrado">
+                <ion-label>{{ ordensServico.id }} - <strong>Cliente:</strong> {{ordensServico.nome}}</ion-label>
+                <ion-button id="{{ordensServico.id}}" (click)="exibeModalInfo($event)" color="warning">
+                  <ion-icon id="{{ordensServico.id}}" name="search"></ion-icon>
+                </ion-button>
+              </ion-item>
+              <ion-item *ngIf="dadosOrdemServicoFiltrado.length === 0" class="ion-text-center">
+                <ion-label>Não foi encontrada nenhuma ordem de serviço com essa ID ou nome de cliente</ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

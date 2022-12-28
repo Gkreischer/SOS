@@ -1,0 +1,198 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu/ordemServico/ordensAbertas" (click)="fechaModal()"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="id_ordemServico">Ordem Nº {{id_ordemServico}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid *ngIf="dadosOrdemServico">
+    <ion-row>
+      <ion-col>
+        <ion-card color="tertiary">
+          <ion-card-header>
+            <ion-card-title>Dados da ordem de serviço</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-text>
+              <p>
+                <strong>Atendente: </strong>{{dadosOrdemServico.atendente}}
+              </p>
+              <p>
+                <strong>Cliente: </strong>{{dadosOrdemServico.nome}}
+              </p>
+              <p>
+                <strong>Tipo: </strong>{{dadosOrdemServico.tipo_cliente}}
+              </p>
+              <p *ngIf="dadosOrdemServico.telefone">
+                <strong>Telefone: </strong>{{dadosOrdemServico.telefone}}
+              </p>
+            </ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-card color="tertiary">
+          <ion-card-header>
+            <ion-card-title>
+              Dados do equipamento
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-text>
+              <p>
+                <strong>
+                  Equipamento:
+                </strong>
+                {{dadosOrdemServico.equipamento}}
+              </p>
+              <p>
+                <strong>
+                  Categoria:
+                </strong>
+                {{dadosOrdemServico.categoria}}
+              </p>
+              <p>
+                <strong>
+                  Descrição:
+                </strong>
+                {{dadosOrdemServico.descricao}}
+              </p>
+            </ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-card color="warning">
+          <ion-card-header>
+            <ion-card-title>Problema relatado</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-text>
+              <p><strong>Problema: </strong>{{dadosOrdemServico.problema_relatado}}</p>
+              <p *ngIf="dadosOrdemServico.obs">
+                <strong>OBS: </strong>{{dadosOrdemServico.obs}}
+              </p>
+            </ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <form [formGroup]="formAtualizaOrdemServico" (ngSubmit)="atualiza()">
+          <ion-list>
+            <ion-item *ngIf="dadosFuncionarios">
+              <ion-label position="stacked">Técnico Orçamento</ion-label>
+              <ion-select interface="popover" formControlName="id_tecnico_diagnostico">
+                <ion-select-option *ngFor="let funcionario of dadosFuncionarios" value="{{funcionario.id}}">
+                  {{funcionario.nome}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Diagnóstico</ion-label>
+              <ion-textarea rows="5" formControlName="problema_diagnosticado"></ion-textarea>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Obs do técnico</ion-label>
+              <ion-textarea rows="5" formControlName="obs_tecnico"></ion-textarea>
+            </ion-item>
+            <!-- <ion-item>
+              <ion-label>Material?</ion-label>
+              <ion-select (ionChange)="permiteAdicaoMaterial($event)">
+                <ion-select-option value="false">NÃO</ion-select-option>
+                <ion-select-option value="true">SIM</ion-select-option>
+              </ion-select>
+            </ion-item> -->
+            <ion-item>
+              <ion-label>Materiais</ion-label>
+              <ion-toggle (ionChange)="permiteAdicaoMaterial($event)" value="{{!materialPresente}}" slot="end"></ion-toggle>
+            </ion-item>
+            <!-- CONTROLE DE MATERIAIS -->
+            <ion-item *ngIf="materialPresente">
+              <ion-label position="stacked">Materiais</ion-label>
+              <ion-select cancelText="Cancelar" okText="Selecionar" (ionChange)="adicionaMaterial($event)">
+                <ion-select-option *ngFor="let material of (materiais$ | async)" value="{{material.id}}">
+                  {{material.nome}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-card *ngIf="materiaisForm.length != 0" color="primary">
+              <ion-card-header class="ion-justify-content-evenly">
+                  <ion-card-title>Produtos Selecionados</ion-card-title>
+              </ion-card-header>
+              <ion-card-content formArrayName="materiais">
+                <ion-grid>
+                  <ion-row *ngFor="let materialSelecionado of materiaisForm.controls; let i = index" [formGroupName]="i"
+                    style="border-bottom: 1px solid grey;">
+                    <ion-col class="ion-text-center" size="2">
+                      <ion-text>
+                        <h1>
+                          <ion-icon name="close-circle" (click)="deletaMaterialListagem(i)"></ion-icon>
+                        </h1>
+                      </ion-text>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item color="primary" lines="none">
+                        <ion-label>
+                          <h4 slot="start">{{materialSelecionado.value.nome}}</h4>
+                          <p slot="end">{{materialSelecionado.value.valor | currency: 'R$'}}</p>
+                        </ion-label>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item color="warning" lines="none">
+                        <ion-label position="stacked">Quantidade</ion-label>
+                        <ion-input type="number" formControlName="quantidade"></ion-input>
+                        <ion-text>
+                          <p>
+                            <strong>Valor: </strong>{{materialSelecionado.value.valor *
+                            materialSelecionado.value.quantidade | currency: 'R$' }}
+                          </p>
+                        </ion-text>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col class="ion-text-center">
+                      <ion-text>
+                        <h5>Valor total de materiais: {{calculaValorTotalMaterial | currency: 'R$'}}</h5>
+                      </ion-text>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-card-content>
+            </ion-card>
+            <!-- FIM CONTROLE DE MATERIAIS -->
+            <ion-item>
+              <ion-label position="stacked">Valor serviço</ion-label>
+              <ion-input type="number" formControlName="total_servico"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Desconto</ion-label>
+              <ion-input type="number" formControlName="desconto"></ion-input>
+            </ion-item>
+            <ion-item class="ion-text-center">
+              <ion-label><strong>Total ordem de serviço</strong> {{calculaValorTotalOrdemServico | currency:
+                'R$'}}</ion-label>
+            </ion-item>
+            <ion-button [disabled]="!formAtualizaOrdemServico.valid" type="submit" color="primary" expand="block">
+              Atualizar
+            </ion-button>
+            <ion-button [disabled]="!formAtualizaOrdemServico.valid" type="button" color="warning" (click)="finaliza()"
+              expand="block">
+              Finalizar
+            </ion-button>
+          </ion-list>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

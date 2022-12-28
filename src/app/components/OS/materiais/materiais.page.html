@@ -1,0 +1,77 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Materiais</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid [fixed]="true">
+    <ion-row *ngIf="dadosMateriais && dadosMateriais.length == 0" class="ion-text-center ion-margin-top">
+      <ion-col>
+        <ion-text>
+          <h3>Você não tem materiais cadastrados</h3>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="dadosMateriais && dadosMateriais.length != 0">
+      <ion-col>
+        <ion-card color="primary">
+          <ion-card-content>
+            <ion-searchbar (ionInput)="pesquisaMaterial($event)" placeholder="Pesquisar" animated debounce="500"
+              showCancelButton="focus"></ion-searchbar>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="dadosMateriais && dadosMateriais.length != 0">
+      <ion-col size-md="4" size="12" *ngFor="let material of dadosMateriaisFiltrado">
+        <ion-card>
+          <ion-img *ngIf="!material.caminho_imagem" alt="Imagem do produto não encontrado"
+            src="./../../../../assets/images/interrogacao.png"></ion-img>
+          <ion-img *ngIf="material.caminho_imagem" src="{{material.caminho_imagem}}"
+            alt="Imagem do Produto"></ion-img>
+          <ion-card-header>
+            <ion-card-title>{{material.nome}}</ion-card-title>
+            <ion-card-subtitle><strong>{{material.categoria}}</strong></ion-card-subtitle>
+            <ion-card-subtitle color="medium">{{material.criado_em | date: 'd/MM/yy'}}</ion-card-subtitle>
+          </ion-card-header>
+
+          <ion-card-content>
+            <div class="ion-text-wrap">
+              <strong>Descrição: </strong>
+              <p>{{material.descricao}}</p>
+              <strong>Valor:</strong>
+              <p>{{material.valor | currency: 'R$'}}</p>
+            </div>
+            <div *ngIf="!material.atualizado_em">
+              <strong>Última atualização:</strong>
+              <p>{{material.atualizado_em | date:'d/MM/y'}}</p>
+            </div>
+          </ion-card-content>
+          <ion-grid>
+            <ion-row class="ion-text-center">
+              <ion-col>
+                <ion-button fill="clear" (click)="exibeModalEdit($event)" id="{{material.id}}" color="warning">
+                  <ion-icon name="create"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col>
+                <ion-button fill="clear" (click)="exibeModalInfo($event)" id="{{material.id}}" color="primary">
+                  <ion-icon name="search"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed" class="ion-margin-end">
+    <ion-fab-button (click)="exibeModalCadastro()" color="primary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

@@ -1,0 +1,13 @@
+// REMOVE TOOLBAR IN PRINT
+
+@media print {
+    .no-print {
+        display: none!important;
+    }
+}
+
+ion-tab-button {
+    ion-label {
+        font-size: 0.7rem;
+    }
+}

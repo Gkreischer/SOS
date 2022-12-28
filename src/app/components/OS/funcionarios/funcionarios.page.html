@@ -1,0 +1,48 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Funcionários</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row *ngIf="dadosFuncionarios && dadosFuncionarios.length == 0" class="ion-text-center ion-margin-top">
+      <ion-col>
+        <ion-text>
+          <h3>Você não tem funcionários cadastrados</h3>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="dadosFuncionarios && dadosFuncionarios.length != 0">
+      <ion-col size="12" size-md="4" *ngFor="let funcionario of (funcionarios$ | async)">
+        <ion-card>
+          <ion-img *ngIf="funcionario.caminho_imagem" src="{{funcionario.caminho_imagem}}" alt="Imagem do Funcionario"></ion-img>
+          <ion-img *ngIf="!funcionario.caminho_imagem" alt="Imagem do funcionario não encontrada"
+            src="./../../../../assets/images/interrogacao.png"></ion-img>
+          <ion-card-header>
+            <ion-card-title>{{funcionario.nome}}</ion-card-title>
+            <ion-card-subtitle>{{funcionario.cargo}}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-grid>
+            <ion-row class="ion-text-center">
+              <ion-col>
+                <ion-button size="large" fill="clear" (click)="exibeModalEdit($event)" id="{{funcionario.id}}" size="small"
+                  color="warning">
+                  <ion-icon name="create"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed" class="ion-margin-end">
+    <ion-fab-button (click)="exibeModalCadastro()" color="primary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

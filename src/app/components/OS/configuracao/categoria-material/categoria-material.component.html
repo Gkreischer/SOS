@@ -1,0 +1,89 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu/configuracao" (click)="fechaModalCategoriaMaterial()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Categorias Materiais</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <form [formGroup]="formCategoriaMaterial" (ngSubmit)="cadastra()">
+      <ion-row>
+        <ion-col>
+          <ion-list>
+            <ion-item>
+              <ion-label position="stacked">Nome da categoria</ion-label>
+              <ion-input type="text" formControlName="categoria"></ion-input>
+            </ion-item>
+            <ion-item lines="none"
+              *ngIf="formControls.categoria.invalid && (formControls.categoria.dirty || formControls.categoria.touched)">
+              <div>
+                <div *ngIf="formControls.categoria.errors?.['required']">
+                  <ion-text>
+                    <p>
+                      <ion-icon name="alert-circle"></ion-icon>
+                      É necessário uma categoria
+                    </p>
+                  </ion-text>
+                </div>
+                <div *ngIf="formControls.categoria.errors?.['minlength']">
+                  <ion-text>
+                    <p>
+                      <ion-icon name="alert-circle"></ion-icon>
+                      Necessário 2 caracteres, pelo menos...
+                    </p>
+                  </ion-text>
+                </div>
+                <div *ngIf="formControls.categoria.errors?.['maxlength']">
+                  <ion-text>
+                    <p>
+                      <ion-icon name="alert-circle"></ion-icon>
+                      Atingido limite máximo de caracteres
+                    </p>
+                  </ion-text>
+                </div>
+              </div>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button [disabled]="!formCategoriaMaterial.valid" color="primary" type="submit" expand="block">
+            Cadastrar
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </form>
+
+    <ion-row class="ion-text-center">
+      <ion-col>
+        <ion-text>
+          <p>Categorias devem ser únicas</p>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="dadosCategoria && dadosCategoria.length == 0" class="ion-text-center ion-margin-top">
+      <ion-col>
+        <ion-text>
+          Você não tem categorias cadastradas
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="dadosCategoria && dadosCategoria.length != 0">
+      <ion-col>
+        <ion-list>
+          <ion-item *ngFor="let categoria of (categorias$ | async)">
+            <ion-label>{{categoria.categoria}}</ion-label>
+            <ion-button color="warning" id="{{categoria.id}}" (click)="exibeAlertEdit($event)">
+              <ion-icon name="create"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

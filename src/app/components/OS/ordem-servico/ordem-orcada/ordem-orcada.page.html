@@ -1,0 +1,59 @@
+<ion-content>
+  <ion-grid>
+    <ion-row *ngIf="dadosOrdemServico.length === 0">
+      <ion-col class="ion-text-center">
+        <ion-text>
+          <h3>Você não tem ordens de serviço em aberto</h3>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-text-center" *ngIf="dadosOrdemServico.length !== 0">
+      <ion-col>
+        <ion-text>
+          <h3>Ordens orçadas</h3>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="dadosOrdemServico.length !== 0">
+      <ion-col>
+        <ion-list>
+          <ion-item *ngFor="let ordemServico of (ordemServico$ | async)">
+            <ion-chip outline color="warning" slot="start">
+              <strong>
+                {{ordemServico.id}}
+              </strong>
+            </ion-chip>
+            <ion-label>
+              <ion-text>
+                <p>
+                  <strong>
+                    Entrada:
+                  </strong>
+                  {{ordemServico.criado_em | date:'d/MM/y'}}
+                </p>
+              </ion-text>
+              <ion-text class="ion-text-wrap">
+                <p><strong>Cliente: </strong>{{ordemServico.nome}}</p>
+              </ion-text>
+              <ion-text class="ion-text-wrap">
+                <p><strong>Téc. Diagnóstico: </strong> {{ordemServico.tecnico_diagnostico}}</p>
+                <p><strong>Status: </strong>
+                  <span [ngClass]="ordemServico.aceito == true ? 'color_success' : 'color_warning'">
+                    {{ordemServico.aceito == true ? 'Aceito' : 'Aguardando resposta'}}
+                  </span>
+                </p>
+              </ion-text>
+            </ion-label>
+            <ion-button color="secondary" id="{{ordemServico.id}}"
+              (click)="print($event)" slot="end">
+              <ion-icon id="{{ordemServico.id}}" name="print"></ion-icon>
+            </ion-button>
+            <ion-button id="{{ordemServico.id}}" (click)="exibeModalEdit($event)" slot="end">
+              <ion-icon id="{{ordemServico.id}}" name="search-circle"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

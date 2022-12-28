@@ -1,0 +1,86 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary" color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu/clientes"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Equipamentos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row *ngIf="dadosEquipamentos && dadosEquipamentos.length == 0" class="ion-text-center">
+      <ion-col>
+        <ion-text>
+          <h3>Não existem equipamentos cadastrados para esse cliente</h3>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12" size-md="6">
+        <ion-card *ngFor="let equipamento of (equipamentos$ | async)">
+          <ion-card-header>
+            <ion-card-title>{{equipamento.nome}}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-row>
+              <ion-col>
+                <ion-text>
+                  <h2>
+                    <strong>Descrição:</strong>
+                  </h2>
+                </ion-text>
+                <ion-text>
+                  <p>{{equipamento.descricao}}</p>
+                </ion-text>
+                <ion-text>
+                  <h2>
+                    <strong>Nº Série:</strong>
+                  </h2>
+                </ion-text>
+                <ion-text>
+                  <p>{{equipamento.numero_serie}}</p>
+                </ion-text>
+              </ion-col>
+              <ion-col>
+                <ion-text>
+                  <h2>
+                    <strong>Categoria:</strong>
+                  </h2>
+                </ion-text>
+                <ion-text>
+                  <p>{{equipamento.categoria}}</p>
+                </ion-text>
+                <ion-text>
+                  <h2>
+                    <strong>Cadastrado:</strong>
+                  </h2>
+                </ion-text>
+                <ion-text>
+                  <p>{{equipamento.criado_em | date:'d/MM/y'}}</p>
+                </ion-text>
+              </ion-col>
+            </ion-row>
+            <ion-row class="ion-text-center">
+              <ion-col>
+                <ion-button size="large" fill="clear" color="warning" id="{{equipamento.id}}" (click)="exibeModalEdit($event)">
+                  <ion-icon id="{{equipamento.id}}" name="create"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col>
+                <ion-button size="large" fill="clear" color="danger" id="{{equipamento.id}}" (click)="exibeAlertDeleta($event)">
+                  <ion-icon id="{{equipamento.id}}" name="trash"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed" class="ion-margin-end">
+    <ion-fab-button id="{{id_cliente}}" (click)="exibeModalCadastro($event)" color="primary">
+      <ion-icon id="{{id_cliente}}" name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

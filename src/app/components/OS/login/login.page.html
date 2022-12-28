@@ -1,0 +1,78 @@
+<ion-content>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-sm="12" size-md="4" class="ion-align-items-center">
+        <ion-card>
+          <ion-img src="assets/images/sos.png"></ion-img>
+          <ion-card-header class="ion-text-center">
+            <ion-card-title>Login</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <form [formGroup]="formLogin" (ngSubmit)="login()">
+              <!-- EMAIL -->
+              <ion-item>
+                <ion-label position="stacked">Email</ion-label>
+                <ion-input type="email" formControlName="email" required minlength="2"></ion-input>
+              </ion-item>
+              <div class="ion-text-center ion-margin-vertical"
+                *ngIf="formControls.email.invalid && (formControls.email.dirty || formControls.email.touched)">
+                <div *ngIf="formControls.email.errors?.['required']">
+                  <ion-text>
+                    <p>
+                      <ion-icon name="alert-circle"></ion-icon>
+                      É necessário um email
+                    </p>
+                  </ion-text>
+                </div>
+                <div *ngIf="formControls.email.errors?.['minlength']">
+                  <ion-text>
+                    <p>
+                      <ion-icon name="alert-circle"></ion-icon>
+                      Insira, no mínimo, 2 caracteres...
+                    </p>
+                  </ion-text>
+                </div>
+                <div *ngIf="formControls.email.errors?.['email']">
+                  <ion-text>
+                    <p>
+                      <ion-icon name="alert-circle"></ion-icon>
+                      Deve ser do tipo email. Ex: seunome@email.com
+                    </p>
+                  </ion-text>
+                </div>
+              </div>
+              <!-- FIM EMAIL -->
+              <!-- SENHA -->
+              <ion-item>
+                <ion-label position="stacked">Senha</ion-label>
+                <ion-input type="password" formControlName="senha" required minlength="2"></ion-input>
+              </ion-item>
+              <div class="ion-text-center ion-margin-vertical"
+                *ngIf="formControls.senha.invalid && (formControls.senha.dirty || formControls.senha.touched)">
+                <div *ngIf="formControls.senha.errors?.['required']">
+                  <ion-text>
+                    <p>
+                      <ion-icon name="alert-circle"></ion-icon>
+                      É necessário uma senha
+                    </p>
+                  </ion-text>
+                </div>
+                <div *ngIf="formControls.senha.errors?.['minlength']">
+                  <ion-text>
+                    <p>
+                      <ion-icon name="alert-circle"></ion-icon>
+                      Insira, no mínimo, 8 caracteres...
+                    </p>
+                  </ion-text>
+                </div>
+              </div>
+              <!-- FIM SENHA -->
+              <ion-button expand="block" [disabled]="!formLogin.valid" type="submit">Login</ion-button>
+            </form>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

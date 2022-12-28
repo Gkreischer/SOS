@@ -1,0 +1,62 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu/equipamentos/4" (click)="fechaModal()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Cadastrar Equipamento</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid *ngIf="dadosCliente">
+    <ion-row *ngIf="dadosCliente">
+      <ion-col>
+        <ion-list>
+          <ion-item>
+            <ion-text>
+              <p>
+                <strong>Cliente:</strong> {{dadosCliente.nome}}
+              </p>
+            </ion-text>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <form [formGroup]="formCadastroEquipamento" (ngSubmit)="cadastra()">
+          <ion-list>
+            <!-- INPUT NOME -->
+            <ion-item>
+              <ion-label position="stacked">Nome</ion-label>
+              <ion-input type="text" formControlName="nome" required minlength="2" maxlength="70"></ion-input>
+            </ion-item>
+            <!-- FIM INPUT NOME -->
+            <!-- INPUT CATEGORIA -->
+            <ion-item *ngIf="dadosCategorias && dadosCategorias.length != 0">
+              <ion-label position="stacked">Categoria</ion-label>
+              <ion-select formControlName="id_categoria" required>
+                <ion-select-option *ngFor="let categoria of (categorias$ | async)" value="{{categoria.id}}">
+                  {{categoria.categoria}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <!-- FIM INPUT CATEGORIA -->
+            <!-- INPUT NUMERO DE SERIE -->
+            <ion-item>
+              <ion-label position="stacked">Nº de série</ion-label>
+              <ion-input type="text" formControlName="numero_serie"></ion-input>
+            </ion-item>
+            <!-- FIM INPUT NUMERO SERIE -->
+            <!-- INPUT DESCRICAO -->
+            <ion-item>
+              <ion-label position="stacked">Descrição</ion-label>
+              <ion-textarea rows="5" type="text" formControlName="descricao"></ion-textarea>
+            </ion-item>
+            <!-- FIM INPUT DESCRICAO -->
+            <ion-button color="primary" expand="block" type="submit">Cadastrar</ion-button>
+          </ion-list>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,21 @@
+export interface Configuracao {
+    id: string,
+    razao_social: string,
+    nome_fantasia: string,
+    caminho_logo: string,
+    cnpj: string,
+    telefone: string,
+    celular: string,
+    email: string,
+    whatsapp: boolean,
+    logo_url: string,
+    endereco: string,
+    bairro: string,
+    cidade: string,
+    estado: string,
+    cep: string,
+    texto_comprovante_os: string,
+    caminho_imagem: string,
+    criado_em: string,
+    atualizado_em: string
+}

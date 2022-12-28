@@ -1,0 +1,318 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu/clientes" (click)="fechaModal()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Cadastro Cliente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-segment color="danger" (ionChange)="segmentChanged($event)">
+          <ion-segment-button value="pessoaFisica">
+            <ion-icon name="person"></ion-icon>
+            <ion-label>Pessoa Física</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="pessoaJuridica">
+            <ion-icon name="business"></ion-icon>
+            <ion-label>Pessoa Jurídica</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="tipoCliente !== null">
+      <ion-col>
+        <form [formGroup]="formCadastroCliente" (ngSubmit)="cadastra()">
+          <!-- NOME -->
+          <ion-item>
+            <ion-label position="stacked">Nome</ion-label>
+            <ion-input type="text" formControlName="nome" minlength="2" maxlength="70" required></ion-input>
+          </ion-item>
+          <ion-item lines="none"
+            *ngIf="formControls.nome.invalid && (formControls.nome.dirty || formControls.nome.touched)">
+            <div>
+              <div *ngIf="formControls.nome.errors?.['minlength']">
+                <ion-text>
+                  <p>
+                    <ion-icon name="alert-circle"></ion-icon>
+                    Insira, no mínimo, 2 caracteres...
+                  </p>
+                </ion-text>
+              </div>
+              <div *ngIf="formControls.nome.errors?.['maxlength']">
+                <ion-text>
+                  <p>
+                    <ion-icon name="alert-circle"></ion-icon>
+                    Atingido limite máximo de caracteres
+                  </p>
+                </ion-text>
+              </div>
+            </div>
+          </ion-item>
+          <!-- FIM INPUT NOME -->
+          <!-- CPF -->
+          <ion-item *ngIf="tipoCliente === 'pessoaFisica'">
+            <ion-label position="stacked">CPF</ion-label>
+            <ion-input type="text" formControlName="cpf" minlength="11" maxlength="11"></ion-input>
+          </ion-item>
+          <ion-item lines="none"
+            *ngIf="formControls.cpf.invalid && (formControls.cpf.dirty || formControls.cpf.touched)">
+            <div>
+              <div *ngIf="formControls.cpf.errors?.['minlength']">
+                <ion-text>
+                  <p>
+                    <ion-icon name="alert-circle"></ion-icon>
+                    Insira, no mínimo, 11 caracteres...
+                  </p>
+                </ion-text>
+              </div>
+              <div *ngIf="formControls.cpf.errors?.['maxlength']">
+                <ion-text>
+                  <p>
+                    <ion-icon name="alert-circle"></ion-icon>
+                    Atingido limite máximo de caracteres
+                  </p>
+                </ion-text>
+              </div>
+            </div>
+          </ion-item>
+          <!-- FIM INPUT CPF -->
+          <!-- RAZAO SOCIAL -->
+          <ion-item *ngIf="tipoCliente === 'pessoaJuridica'">
+            <ion-label position="stacked">Razão Social</ion-label>
+            <ion-input type="text" formControlName="razao_social" minlength="2" maxlength="70"></ion-input>
+          </ion-item>
+          <ion-item lines="none"
+            *ngIf="formControls.razao_social.invalid && (formControls.razao_social.dirty || formControls.razao_social.touched)">
+            <div>
+              <div *ngIf="formControls.razao_social.errors?.['minlength']">
+                <ion-text>
+                  <p>
+                    <ion-icon name="alert-circle"></ion-icon>
+                    Insira, no mínimo, 2 caracteres...
+                  </p>
+                </ion-text>
+              </div>
+              <div *ngIf="formControls.razao_social.errors?.['maxlength']">
+                <ion-text>
+                  <p>
+                    <ion-icon name="alert-circle"></ion-icon>
+                    Atingido limite máximo de caracteres
+                  </p>
+                </ion-text>
+              </div>
+            </div>
+          </ion-item>
+          <!-- FIM INPUT RAZAO SOCIAL -->
+          <!-- CNPJ -->
+          <ion-item *ngIf="tipoCliente === 'pessoaJuridica'">
+            <ion-label position="stacked">CNPJ</ion-label>
+            <ion-input type="text" formControlName="cnpj" minlength="14" maxlength="14"></ion-input>
+          </ion-item>
+          <ion-item lines="none"
+            *ngIf="formControls.cnpj.invalid && (formControls.cnpj.dirty || formControls.cnpj.touched)">
+            <div>
+              <div *ngIf="formControls.cnpj.errors?.['minlength']">
+                <ion-text>
+                  <p>
+                    <ion-icon name="alert-circle"></ion-icon>
+                    Insira, no mínimo, 14 caracteres...
+                  </p>
+                </ion-text>
+              </div>
+              <div *ngIf="formControls.cnpj.errors?.['maxlength']">
+                <ion-text>
+                  <p>
+                    <ion-icon name="alert-circle"></ion-icon>
+                    Atingido limite máximo de caracteres
+                  </p>
+                </ion-text>
+              </div>
+            </div>
+          </ion-item>
+          <!-- FIM INPUT CNPJ -->
+          <!-- TELEFONE -->
+          <ion-item>
+            <ion-label position="stacked">Telefone</ion-label>
+            <ion-input type="tel" formControlName="telefone" minlength="10" maxlength="10"></ion-input>
+          </ion-item>
+          <ion-item lines="none"
+            *ngIf="formControls.telefone.invalid && (formControls.telefone.dirty || formControls.telefone.touched)">
+            <div class="alert">
+              <div *ngIf="formControls.telefone.errors?.['minlength']">
+                <ion-text>
+                  <p>
+                    <ion-icon name="alert-circle"></ion-icon>
+                    DDD (sem o ZERO) + número
+                  </p>
+                </ion-text>
+              </div>
+              <div *ngIf="formControls.telefone.errors?.['maxlength']">
+                <ion-text>
+                  <p>
+                    <ion-icon name="alert-circle"></ion-icon>
+                    Atingido limite de números
+                  </p>
+                </ion-text>
+              </div>
+            </div>
+          </ion-item>
+          <!-- FIM INPUT TELEFONE -->
+          <!-- CELULAR -->
+          <ion-item>
+            <ion-label position="stacked">Celular</ion-label>
+            <ion-input type="text" formControlName="celular" minlength="11" maxlength="11" required></ion-input>
+          </ion-item>
+          <ion-item lines="none"
+            *ngIf="formControls.celular.invalid && (formControls.celular.dirty || formControls.celular.touched)">
+            <div class="alert">
+              <div *ngIf="formControls.celular.errors?.['required']">
+                <ion-text>
+                  <p>
+                    <ion-icon name="alert-circle"></ion-icon>
+                    É necessário um número de celular
+                  </p>
+                </ion-text>
+              </div>
+              <div *ngIf="formControls.celular.errors?.['minlength']">
+                <ion-text>
+                  <p>
+                    <ion-icon name="alert-circle"></ion-icon>
+                    DDD (sem o ZERO) + número
+                  </p>
+                </ion-text>
+              </div>
+            </div>
+          </ion-item>
+          <!-- FIM INPUT CELULAR -->
+          <!-- WHATSAPP -->
+          <ion-item>
+            <ion-label position="stacked">Whatsapp</ion-label>
+            <ion-select formControlName="whatsapp" required>
+              <ion-select-option value="0">NÃO</ion-select-option>
+              <ion-select-option value="1">SIM</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item lines="none"
+            *ngIf="formControls.whatsapp.invalid && (formControls.whatsapp.dirty || formControls.whatsapp.touched)">
+            <div class="alert">
+              <div *ngIf="formControls.whatsapp.errors?.['required']">
+                <ion-text>
+                  <p>
+                    <ion-icon name="alert-circle"></ion-icon>
+                    É necessário informar se possui Whatsapp
+                  </p>
+                </ion-text>
+              </div>
+            </div>
+          </ion-item>
+          <!-- FIM INPUT WHATSAPP -->
+          <!-- EMAIL -->
+          <ion-item>
+            <ion-label position="stacked">Email</ion-label>
+            <ion-input type="email" formControlName="email"></ion-input>
+          </ion-item>
+          <ion-item lines="none"
+            *ngIf="formControls.email.invalid && (formControls.email.dirty || formControls.email.touched)">
+            <div class="alert">
+              <div *ngIf="formControls.email.errors?.['email']">
+                <ion-text>
+                  <p>
+                    <ion-icon name="alert-circle"></ion-icon>
+                    Insira um email no formato valido. Ex: ____@email.com
+                  </p>
+                </ion-text>
+              </div>
+            </div>
+          </ion-item>
+          <!-- FIM INPUT EMAIL -->
+          <!-- ENDERECO -->
+          <ion-item>
+            <ion-label position="stacked">Endereço</ion-label>
+            <ion-input type="text" formControlName="endereco"></ion-input>
+          </ion-item>
+          <!-- FIM INPUT ENDERECO -->
+          <!-- BAIRRO -->
+          <ion-item>
+            <ion-label position="stacked">Bairro</ion-label>
+            <ion-input type="text" formControlName="bairro"></ion-input>
+          </ion-item>
+          <!-- FIM INPUT BAIRRO -->
+          <!-- CIDADE -->
+          <ion-item>
+            <ion-label position="stacked">Cidade</ion-label>
+            <ion-input type="text" formControlName="cidade"></ion-input>
+          </ion-item>
+          <!-- FIM INPUT CIDADE -->
+          <!-- ESTADO -->
+          <ion-item>
+            <ion-label position="stacked">Estado</ion-label>
+            <ion-input type="text" formControlName="estado" minlength="2" maxlength="2"></ion-input>
+          </ion-item>
+          <ion-item lines="none"
+            *ngIf="formControls.estado.invalid && (formControls.estado.dirty || formControls.estado.touched)">
+            <div class="alert">
+              <div *ngIf="formControls.estado.errors?.['minlength']">
+                <ion-text>
+                  <p>
+                    <ion-icon name="alert-circle"></ion-icon>
+                    É necessário informar um estado. Ex: RJ
+                  </p>
+                </ion-text>
+              </div>
+              <div *ngIf="formControls.estado.errors?.['maxlength']">
+                <ion-text>
+                  <p>
+                    <ion-icon name="alert-circle"></ion-icon>
+                    Limite de 2 caractes. Ex: RJ
+                  </p>
+                </ion-text>
+              </div>
+            </div>
+          </ion-item>
+          <!-- FIM INPUT ESTADO -->
+          <!-- CEP -->
+          <ion-item>
+            <ion-label position="stacked">CEP</ion-label>
+            <ion-input type="text" formControlName="cep" minlength="8" maxlength="8"></ion-input>
+          </ion-item>
+          <ion-item lines="none"
+            *ngIf="formControls.cep.invalid && (formControls.cep.dirty || formControls.cep.touched)">
+            <div class="alert">
+              <div *ngIf="formControls.cep.errors?.['minlength']">
+                <ion-text>
+                  <p>
+                    <ion-icon name="alert-circle"></ion-icon>
+                    Insira o cep no formato XXXXXXXX (sem -)
+                  </p>
+                </ion-text>
+              </div>
+              <div *ngIf="formControls.cep.errors?.['maxlength']">
+                <ion-text>
+                  <p>
+                    <ion-icon name="alert-circle"></ion-icon>
+                    Atingido limite de números do CEP
+                  </p>
+                </ion-text>
+              </div>
+            </div>
+          </ion-item>
+          <!-- FIM INPUT CEP -->
+          <!-- OBS -->
+          <ion-item>
+            <ion-label position="stacked">OBS</ion-label>
+            <ion-textarea rows="5" type="text" formControlName="obs"></ion-textarea>
+          </ion-item>
+          <!-- FIM INPUT OBS -->
+          <ion-button [disabled]="!formCadastroCliente.valid" type="submit" expand="block">
+            Cadastrar
+          </ion-button>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

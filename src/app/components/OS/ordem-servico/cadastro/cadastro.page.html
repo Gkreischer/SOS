@@ -1,0 +1,58 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu/ordemServico"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Cadastro de Ordem de Serviço</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-list>
+          <form [formGroup]="formCadastroOrdemServico" (ngSubmit)="cadastra()">
+            <!-- INPUT CLIENTE -->
+            <ion-item *ngIf="dadosClientes && dadosClientes.length != 0">
+              <ion-label position="stacked">Cliente</ion-label>
+              <ion-select (ionChange)="carregaEquipamentoCliente()" formControlName="id_cliente" required>
+                <ion-select-option *ngFor="let cliente of (clientes$ | async)" value="{{cliente.id}}">{{cliente.nome}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <!-- FIM INPUT CLIENTE -->
+            <!-- INPUT EQUIPAMENTO -->
+            <ion-item *ngIf="dadosEquipamentos && dadosEquipamentos.length != 0">
+              <ion-label position="stacked">Equipamento</ion-label>
+              <ion-select interface="popover" (ionChange)="exibeCamposParaCadastro()" formControlName="id_equipamento" required>
+                <ion-select-option *ngFor="let equipamento of (equipamentosCliente$ | async)" value="{{equipamento.id}}">{{equipamento.nome}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <!-- FIM INPUT EQUIPAMENTO -->
+            <!-- INPUT ATENDENTE -->
+            <ion-item *ngIf="dadosAtendentes && dadosAtendentes.length != 0">
+              <ion-label position="stacked">Atendente</ion-label>
+              <ion-select interface="popover" formControlName="id_atendente" required>
+                <ion-select-option *ngFor="let atendente of (atendentes$ | async)" value="{{atendente.id}}">{{atendente.nome}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <!-- FIM INPUT ATENDENTE -->
+            <!-- INPUT PROBLEMA RELATADO-->
+            <ion-item *ngIf="dadosAtendentes && dadosAtendentes.length != 0">
+              <ion-label position="stacked">Problema Relatado</ion-label>
+              <ion-textarea rows="5" formControlName="problema_relatado" minlength="2" required></ion-textarea>
+            </ion-item>
+            <!-- FIM INPUT PROBLEMA RELATADO -->
+            <!-- INPUT OBS -->
+            <ion-item *ngIf="dadosAtendentes && dadosAtendentes.length != 0">
+              <ion-label position="stacked">Obs</ion-label>
+              <ion-textarea rows="5" formControlName="obs"></ion-textarea>
+            </ion-item>
+            <!-- FIM INPUT OBS -->
+            <ion-button [disabled]="!formCadastroOrdemServico.valid" color="primary" expand="block" type="submit">Cadastrar</ion-button>
+          </form>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

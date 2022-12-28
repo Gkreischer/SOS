@@ -1,0 +1,13 @@
+Important:
+
+Must change apache.ini, in:
+
+Listen 80
+
+change to
+
+Listen 127.0.0.1:80
+
+to
+
+$_SERVER['SERVER_ADDR'] change '::1' to '127.0.0.1'

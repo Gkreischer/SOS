@@ -1,0 +1,174 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu/ordemServico/ordensOrcadas" (click)="fechaModal()"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="id_ordemServico">Ordem Nº {{id_ordemServico}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid *ngIf="dadosOrdemServico">
+    <!-- CARD INFORMACOES CLIENTE -->
+    <ion-row>
+      <ion-col>
+        <ion-card color="tertiary">
+          <ion-card-header>
+            <ion-card-title>Cliente</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-text>
+                    <p><strong>Nome</strong></p>
+                    <p>{{dadosOrdemServico.nome}}</p>
+                    <p *ngIf="dadosOrdemServico.telefone"><strong>Telefone</strong></p>
+                    <p *ngIf="dadosOrdemServico.telefone">{{dadosOrdemServico.telefone}}</p>
+                    <p><strong>Celular</strong></p>
+                    <p>{{dadosOrdemServico.celular}}</p>
+                    <p><strong>Tipo</strong></p>
+                    <p>{{dadosOrdemServico.tipo_cliente}}</p>
+
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <!-- FIM CARD INFORMACOES CLIENTE -->
+    <!-- CARD EQUIPAMENTO -->
+    <ion-row>
+      <ion-col>
+        <ion-card color="tertiary">
+          <ion-card-header>
+            <ion-card-title>Equipamento</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-text>
+                    <p><strong>Equipamento</strong></p>
+                    <p>{{dadosOrdemServico.equipamento}}</p>
+                    <p><strong>Categoria</strong></p>
+                    <p>{{dadosOrdemServico.categoria}}</p>
+                    <p><strong>Descrição</strong></p>
+                    <p>{{dadosOrdemServico.descricao}}</p>
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <!-- FIM CARD INFORMACOES EQUIPAMENTO -->
+    <!-- CARD EQUIPAMENTO -->
+    <ion-row>
+      <ion-col>
+        <ion-card color="success">
+          <ion-card-header>
+            <ion-card-title>Diagnóstico</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-text>
+                    <p><strong>Problema Relatado</strong></p>
+                    <p>{{dadosOrdemServico.problema_relatado}}</p>
+                    <p><strong>Problema Diagnosticado</strong></p>
+                    <p>{{dadosOrdemServico.problema_diagnosticado}}</p>
+                    <p *ngIf="dadosOrdemServico.obs"><strong>Obs Atendente</strong></p>
+                    <p *ngIf="dadosOrdemServico.obs">{{dadosOrdemServico.obs}}</p>
+                    <p *ngIf="dadosOrdemServico.obs_tecnico"><strong>Obs do técnico</strong></p>
+                    <p *ngIf="dadosOrdemServico.obs_tecnico">{{dadosOrdemServico.obs_tecnico}}</p>
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <!-- FIM CARD INFORMACOES EQUIPAMENTO -->
+    <!-- CARD MATERIAIS -->
+    <ion-row *ngIf="materiais$">
+      <ion-col>
+        <ion-card color="warning">
+          <ion-card-header>
+            <ion-card-title>Materiais</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row *ngFor="let material of (materiais$ | async); let i = index"
+                style="border-bottom: 1px solid black;">
+                <ion-col>
+                  <ion-text>
+                    <p><strong>{{material.nome}}</strong> - {{material.valor | currency: 'R$'}}</p>
+                    <p><strong>Quantidade</strong></p>
+                    <p>{{material.quantidade}}</p>
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-text>
+                    <h3><strong>Total material:</strong> {{valorTotalMaterial | currency: 'R$'}}</h3>
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <form [formGroup]="formAtualizaOrdemServico" (ngSubmit)="atualiza()">
+          <ion-list>
+            <ion-item *ngIf="dadosFuncionarios">
+              <ion-label position="stacked">Técnico Execução</ion-label>
+              <ion-select interface="popover" formControlName="id_tecnico_execucao">
+                <ion-select-option *ngFor="let funcionario of dadosFuncionarios" value="{{funcionario.id}}">
+                  {{funcionario.nome}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Aceito?</ion-label>
+              <ion-select cancelText="Cancelar" okText="Confirmar" formControlName="aceito" required>
+                <ion-select-option value="0">NÃO</ion-select-option>
+                <ion-select-option value="1">SIM</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Serviço executado</ion-label>
+              <ion-textarea rows="5" formControlName="servico_executado" minlength="2"></ion-textarea>
+            </ion-item>
+            <ion-item lines="none"
+              *ngIf="formControls.servico_executado.invalid && (formControls.servico_executado.dirty || formControls.servico_executado.touched)">
+              <div>
+                <div *ngIf="formControls.servico_executado.errors?.['minlength']">
+                  <ion-text>
+                    <p>
+                      <ion-icon name="alert-circle"></ion-icon>
+                      Insira, no mínimo, 2 caracteres
+                    </p>
+                  </ion-text>
+                </div>
+              </div>
+            </ion-item>
+          </ion-list>
+          <ion-button color="primary" expand="block" type="submit" [disabled]="!formAtualizaOrdemServico.valid">
+            Atualizar</ion-button>
+          <ion-button color="warning" expand="block" type="button" [disabled]="!formAtualizaOrdemServico.valid"
+            (click)="finaliza()">Finalizar</ion-button>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

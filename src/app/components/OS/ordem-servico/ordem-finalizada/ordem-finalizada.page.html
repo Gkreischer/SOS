@@ -1,0 +1,62 @@
+<ion-content>
+    <ion-grid *ngIf="dadosOrdemServico">
+        <ion-row *ngIf="dadosOrdemServico.length === 0">
+            <ion-col class="ion-text-center">
+                <ion-text>
+                    <h3>Você não tem ordens de serviço finalizadas ainda</h3>
+                </ion-text>
+            </ion-col>
+        </ion-row>
+        <ion-row class="ion-text-center" *ngIf="dadosOrdemServico.length !== 0">
+            <ion-col>
+                <ion-text>
+                    <h3>Ordens finalizadas</h3>
+                </ion-text>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngIf="dadosOrdemServico.length !== 0">
+            <ion-col>
+                <ion-list>
+                    <ion-item *ngFor="let ordemServico of (ordemServico$ | async)">
+                        <ion-chip outline color="success" slot="start">
+                            <strong>
+                                {{ordemServico.id}}
+                            </strong>
+                        </ion-chip>
+                        <ion-label>
+                            <ion-text>
+                                <p>
+                                    <strong>
+                                        Entrada:
+                                    </strong>
+                                    {{ordemServico.criado_em | date:'d/MM/y'}}
+                                </p>
+                            </ion-text>
+                            <ion-text>
+                                <p>
+                                    <strong>
+                                        Concluida:
+                                    </strong>
+                                    {{ordemServico.concluida_em | date:'d/MM/y'}}
+                                </p>
+                            </ion-text>
+                            <ion-text class="ion-text-wrap">
+                                <p><strong>Cliente: </strong>{{ordemServico.nome}}</p>
+                            </ion-text>
+                            <ion-text class="ion-text-wrap" [ngClass]="ordemServico.entregue == true ? 'color_success' : 'color_warning'">
+                                <p><strong>Situação: </strong>{{ordemServico.entregue == true ? 'Entregue' : 'Aguardando retirada'}}</p>
+                            </ion-text>
+                        </ion-label>
+                        <ion-button color="secondary" id="{{ordemServico.id}}"
+                        (click)="print($event)" slot="end">
+                            <ion-icon id="{{ordemServico.id}}" name="print"></ion-icon>
+                        </ion-button>
+                        <ion-button id="{{ordemServico.id}}" (click)="exibeModalInfo($event)" slot="end">
+                            <ion-icon id="{{ordemServico.id}}" name="search-circle"></ion-icon>
+                        </ion-button>
+                    </ion-item>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

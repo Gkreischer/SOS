@@ -1,0 +1,67 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu/clientes" (click)="fechaModal()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Dados Cliente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-list *ngIf="cliente">
+          <ion-item>
+            <ion-label>Nome: {{cliente.nome}}</ion-label>
+          </ion-item>
+          <ion-item *ngIf="cliente.cpf">
+            <ion-label>CPF: {{cliente.cpf}}</ion-label>
+          </ion-item>
+          <ion-item *ngIf="cliente.razao_social">
+            <ion-label>Razão Social: {{cliente.razao_social}}</ion-label>
+          </ion-item>
+          <ion-item *ngIf="cliente.cnpj">
+            <ion-label>CNPJ: {{cliente.cnpj}}</ion-label>
+          </ion-item>
+          <ion-item *ngIf="cliente.telefone">
+            <ion-label>Telefone: {{cliente.telefone}}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Celular: {{cliente.celular}}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Whatsapp: {{cliente.whatsapp == true ? 'SIM' : 'NÃO'}}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Email: {{cliente.email}}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Endereço: {{cliente.endereco}}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Bairro: {{cliente.bairro}}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Cidade: {{cliente.cidade}}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Estado: {{cliente.estado}}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>CEP: {{cliente.cep}}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Obs: {{cliente.obs}}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Criado em: {{cliente.criado_em | date: 'd/M/YYYY'}}</ion-label>
+          </ion-item>
+          <ion-item *ngIf="cliente.atualizado_em != '0000-00-00 00:00:00'">
+            <ion-label>Atualizado em: {{cliente.atualizado_em | date: 'd/M/YYYY'}}</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

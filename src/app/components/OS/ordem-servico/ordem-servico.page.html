@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="no-print">Ordem de Serviço</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-tabs>
+    <ion-tab-bar class="no-print" color="primary" slot="bottom">
+      <ion-tab-button tab="ordensAbertas">
+        <ion-icon name="create"></ion-icon>
+        <ion-label>Abertas</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="ordensOrcadas">
+        <ion-icon name="reader"></ion-icon>
+        <ion-label>Orçadas</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="ordensFinalizadas">
+        <ion-icon name="checkmark-circle"></ion-icon>
+        <ion-label>Finalizadas</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="cadastro">
+        <ion-icon name="add"></ion-icon>
+        <ion-label>Cadastrar</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="pesquisa">
+        <ion-icon name="search"></ion-icon>
+        <ion-label>Pesquisar</ion-label>
+      </ion-tab-button>
+
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-content>

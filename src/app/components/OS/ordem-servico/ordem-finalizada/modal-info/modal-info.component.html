@@ -1,0 +1,136 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu/ordemServico/ordensFinalizadas" (click)="fechaModal()"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="no-print">Ordem de Serviço</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="dadosOrdemServico">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <!-- CLIENTE -->
+        <ion-card color="secondary">
+          <ion-card-header>
+            <ion-card-title>Cliente</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-text>
+              <p><strong>Cliente:</strong> {{dadosOrdemServico.nome}}</p>
+            </ion-text>
+            <ion-text>
+              <p><strong>Tipo:</strong> {{dadosOrdemServico.tipo_cliente}}</p>
+            </ion-text>
+            <ion-text>
+              <p><strong>Telefone:</strong> {{dadosOrdemServico.telefone}}</p>
+            </ion-text>
+            <ion-text>
+              <p><strong>Celular:</strong> {{dadosOrdemServico.celular}}</p>
+            </ion-text>
+            <ion-text>
+              <p><strong>Whatsapp:</strong> {{dadosOrdemServico.whatsapp == true ? 'SIM' : 'NÃO'}}</p>
+            </ion-text>
+          </ion-card-content>
+        </ion-card>
+        <!-- FIM CARD CLIENTE -->
+        <!-- CARD EQUIPAMENTO -->
+        <ion-card color="warning">
+          <ion-card-header>
+            <ion-card-title>Equipamento</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-text>
+              <p><strong>Nome:</strong> {{dadosOrdemServico.equipamento}}</p>
+            </ion-text>
+            <ion-text>
+              <p><strong>Categoria:</strong> {{dadosOrdemServico.categoria}}</p>
+            </ion-text>
+            <ion-text>
+              <p><strong>Descrição:</strong> {{dadosOrdemServico.descricao}}</p>
+            </ion-text>
+          </ion-card-content>
+        </ion-card>
+        <!-- FIM CARD EQUIPAMENTO -->
+        <!-- CARD ORDEM SERVICO -->
+        <ion-card color="primary">
+          <ion-card-header>
+            <ion-card-title>Ordem de Servico</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-text>
+              <p><strong>Criado em:</strong> {{dadosOrdemServico.criado_em | date: 'dd/MM/YYYY'}}</p>
+            </ion-text>
+            <ion-text>
+              <p><strong>Concluida em:</strong> {{dadosOrdemServico.concluida_em | date: 'dd/MM/YYYY'}}</p>
+            </ion-text>
+            <ion-text *ngIf="dadosOrdemServico.entregue_em">
+              <p><strong>Entregue em: {{dadosOrdemServico.entregue_em}}</strong></p>
+            </ion-text>
+            <ion-text>
+              <p><strong>Atendente:</strong> {{dadosOrdemServico.atendente}}</p>
+            </ion-text>
+            <ion-text>
+              <p><strong>Problema relatado:</strong> {{dadosOrdemServico.problema_relatado}}</p>
+            </ion-text>
+            <ion-text *ngIf="dadosOrdemServico.obs">
+              <p><strong>Obs:</strong> {{dadosOrdemServico.obs}}</p>
+            </ion-text>
+            <ion-text>
+              <p><strong>Diagnóstico:</strong> {{dadosOrdemServico.problema_diagnosticado}}</p>
+            </ion-text>
+            <ion-text>
+              <p><strong>Serviço executado:</strong> {{dadosOrdemServico.servico_executado}}</p>
+            </ion-text>
+            <ion-text *ngIf="dadosOrdemServico.obs_tecnico">
+              <p><strong>Obs técnico:</strong> {{dadosOrdemServico.obs_tecnico}}</p>
+            </ion-text>
+            <ion-text *ngIf="dadosOrdemServico.entregue">
+              <p><strong>Entregue:</strong> {{dadosOrdemServico.entregue == true ? 'SIM' : 'NÃO'}}</p>
+            </ion-text>
+          </ion-card-content>
+        </ion-card>
+        <!-- FIM CARD ORDEM SERVICO -->
+        <!-- CARD MATERIAIS -->
+        <ion-card color="warning" *ngIf="dadosMateriais && dadosMateriais.length !== 0">
+          <ion-card-header>
+            <ion-card-title>Materiais</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-text *ngFor="let material of dadosMateriais">
+              <p><strong>Nome:</strong> {{material.nome}}</p>
+              <p><strong>Quantidade:</strong> {{material.quantidade}}</p>
+              <p><strong>Valor:</strong> {{material.valor | currency: 'R$'}}</p>
+            </ion-text>
+          </ion-card-content>
+        </ion-card>
+        <!-- FIM CARD MATERIAIS -->
+        <!-- CARD VALORES -->
+        <ion-card color="warning">
+          <ion-card-header>
+            <ion-card-title>Valores</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-text>
+              <p><strong>Serviço:</strong> {{dadosOrdemServico.total_servico | currency: 'R$'}}</p>
+            </ion-text>
+            <ion-text>
+              <p><strong>Material:</strong> {{dadosOrdemServico.total_material | currency: 'R$'}}</p>
+            </ion-text>
+            <ion-text>
+              <p><strong>Desconto:</strong> {{dadosOrdemServico.desconto | currency: 'R$'}}</p>
+            </ion-text>
+            <ion-text>
+              <p><strong>Total:</strong> {{dadosOrdemServico.total_os | currency: 'R$'}}</p>
+            </ion-text>
+          </ion-card-content>
+        </ion-card>
+        <!-- FIM CARD VALORES -->
+        <ion-button *ngIf="dadosOrdemServico.entregue != true" color="danger" expand="block" (click)="entrega()">
+          Entregar
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

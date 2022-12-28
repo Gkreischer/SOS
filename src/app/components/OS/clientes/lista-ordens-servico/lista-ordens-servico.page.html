@@ -1,0 +1,87 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu/clientes"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Ordens de serviço do cliente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid *ngIf="dadosOrdensServico && dadosOrdensServico.length == 0">
+    <ion-row class="ion-text-center">
+      <ion-col>
+        <ion-text>
+          <h3>Nenhum equipamento cadastrado para esse cliente</h3>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid *ngIf="dadosOrdensServico && dadosOrdensServico.length != 0">
+    <ion-row>
+      <ion-col>
+        <ion-card color="primary">
+          <ion-card-content>
+            <ion-searchbar [debounce]="500" placeholder="Digite o nome do equipamento" animated="true" (ionChange)="pesquisaEquipamentoCategoria($event)"></ion-searchbar>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="dadosOrdensServicoFiltrado.length === 0" class="ion-text-center">
+      <ion-col>
+        <ion-text>
+          <h3>Nenhum equipamento ou categoria cadastrados com esse nome</h3>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="dadosOrdensServicoFiltrado.length !== 0">
+      <ion-col>
+        <ion-card color="light" *ngFor="let ordemServico of (ordensServico$ | async)">
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-text>
+                    <p><strong>Ordem de Serviço:</strong> {{ordemServico.id}}</p>
+                  </ion-text>
+                  <ion-text>
+                    <p><strong>Atendente:</strong> {{ordemServico.atendente}}</p>
+                  </ion-text>
+                  <ion-text>
+                    <p><strong>Equipamento:</strong> {{ordemServico.equipamento}}</p>
+                  </ion-text>
+                  <ion-text>
+                    <p><strong>Descrição do equipamento:</strong> {{ordemServico.descricao}}</p>
+                  </ion-text>
+                  <ion-text>
+                    <p><strong>Problema relatado:</strong> {{ordemServico.problema_relatado}}</p>
+                  </ion-text>
+                  <ion-text *ngIf="ordemServico.tecnico_execucao">
+                    <p><strong>Técnico execução:</strong> {{ordemServico.tecnico_execucao}}</p>
+                  </ion-text>
+                  <ion-text *ngIf="ordemServico.servico_executado">
+                    <p><strong style="color: red;">Serviço executado:</strong> {{ordemServico.servico_executado}}</p>
+                  </ion-text>
+                  <ion-text *ngIf="ordemServico.total_servico">
+                    <p><strong style="color: red;">Valor serviço:</strong> {{ordemServico.total_servico | currency: 'R$'}}</p>
+                  </ion-text>
+                  <ion-text *ngIf="ordemServico.total_material">
+                    <p><strong style="color: red;">Valor material:</strong> {{ordemServico.total_material | currency: 'R$'}}</p>
+                  </ion-text>
+                  <ion-text *ngIf="ordemServico.total_os">
+                    <p><strong style="color: red;">Valor serviço:</strong> {{ordemServico.total_os | currency: 'R$'}}</p>
+                  </ion-text>
+                  <ion-text>
+                    <p><strong style="color: yellow;">Situação: </strong>{{ordemServico.orcado == true ? 'Orcado' : ordemServico.aceito == true ? 'Aceito' : ordemServico.finalizado == true ? 'Finalizado' : ordemServico.entregue == true ? 'Entregue' : 'Não verificado'}}</p>
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+
+</ion-content>

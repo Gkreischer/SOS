@@ -1,0 +1,155 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu/ordemServico/pesquisa" (click)="fechaModal()"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="id_ordemServico">Ordem Nº {{id_ordemServico}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid *ngIf="dadosOrdemServico">
+    <!-- CARD INFORMACOES CLIENTE -->
+    <ion-row>
+      <ion-col>
+        <ion-card color="tertiary">
+          <ion-card-header>
+            <ion-card-title>Cliente</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-text>
+                    <p><strong>Nome</strong></p>
+                    <p>{{dadosOrdemServico.nome}}</p>
+                    <p *ngIf="dadosOrdemServico.telefone"><strong>Telefone</strong></p>
+                    <p *ngIf="dadosOrdemServico.telefone">{{dadosOrdemServico.telefone}}</p>
+                    <p><strong>Celular</strong></p>
+                    <p>{{dadosOrdemServico.celular}}</p>
+                    <p><strong>Tipo</strong></p>
+                    <p>{{dadosOrdemServico.tipo_cliente}}</p>
+  
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <!-- FIM CARD INFORMACOES CLIENTE -->
+    <!-- CARD EQUIPAMENTO -->
+    <ion-row>
+      <ion-col>
+        <ion-card color="tertiary">
+          <ion-card-header>
+            <ion-card-title>Equipamento</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-text>
+                    <p><strong>Equipamento</strong></p>
+                    <p>{{dadosOrdemServico.equipamento}}</p>
+                    <p><strong>Categoria</strong></p>
+                    <p>{{dadosOrdemServico.categoria}}</p>
+                    <p><strong>Descrição</strong></p>
+                    <p>{{dadosOrdemServico.descricao}}</p>
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <!-- FIM CARD INFORMACOES EQUIPAMENTO -->
+    <!-- CARD EQUIPAMENTO -->
+    <ion-row>
+      <ion-col>
+        <ion-card color="success">
+          <ion-card-header>
+            <ion-card-title>Diagnóstico</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-text>
+                    <p><strong>Problema Relatado</strong></p>
+                    <p>{{dadosOrdemServico.problema_relatado}}</p>
+                    <p><strong>Problema Diagnosticado</strong></p>
+                    <p>{{dadosOrdemServico.problema_diagnosticado}}</p>
+                    <p *ngIf="dadosOrdemServico.obs"><strong>Obs Atendente</strong></p>
+                    <p *ngIf="dadosOrdemServico.obs">{{dadosOrdemServico.obs}}</p>
+                    <p *ngIf="dadosOrdemServico.obs_tecnico"><strong>Obs do técnico</strong></p>
+                    <p *ngIf="dadosOrdemServico.obs_tecnico">{{dadosOrdemServico.obs_tecnico}}</p>
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <!-- FIM CARD INFORMACOES EQUIPAMENTO -->
+    <!-- CARD MATERIAIS -->
+    <ion-row *ngIf="dadosMateriais && dadosMateriais.length !== 0">
+      <ion-col>
+        <ion-card color="warning">
+          <ion-card-header>
+            <ion-card-title>Materiais</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row *ngFor="let material of (materiais$ | async); let i = index"
+                style="border-bottom: 1px solid black;">
+                <ion-col>
+                  <ion-text>
+                    <p><strong>Nome</strong></p>
+                    <p>{{material.nome}}</p>
+                    <p><strong>Quantidade</strong></p>
+                    <p>{{material.quantidade}}</p>
+                    <p><strong>Descrição</strong></p>
+                    <p>{{material.valor}}</p>
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-text>
+                    <h3><strong>Valor total de material:</strong> {{dadosOrdemServico.total_material | currency: 'R$'}}</h3>
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="dadosOrdemServico">
+      <ion-col>
+        <ion-card color="secondary">
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-text>
+                    <p>
+                      <strong>Valor total da ordem de serviço: </strong>{{dadosOrdemServico.total_os | currency: 'R$'}}
+                    </p>
+                    <p>
+                      <strong>Situação: </strong> {{dadosOrdemServico.entregue == true ? 'Entregue' : dadosOrdemServico.finalizado == true ? 'Finalizado' : dadosOrdemServico.aceito == true ? 'Aceito' : dadosOrdemServico.orcado == true ? 'Orçado' : 'Aguardando diagnóstico'}}
+                    </p>
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

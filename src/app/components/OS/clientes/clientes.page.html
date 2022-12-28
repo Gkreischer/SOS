@@ -1,0 +1,58 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Clientes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row *ngIf="dadosCliente && dadosCliente.length == 0" class="ion-text-center ion-margin-top">
+      <ion-col>
+        <ion-text>
+          <h3>Você não tem clientes cadastrados</h3>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="dadosCliente && dadosCliente.length != 0">
+      <ion-col>
+        <ion-card color="primary">
+          <ion-card-content>
+            <ion-searchbar (ionInput)="pesquisaCliente($event)" placeholder="Digite o nome, razão social, cpf ou cnpj" animated debounce="500" showCancelButton="focus"></ion-searchbar>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="dadosCliente && dadosCliente.length != 0">
+      <ion-col>
+        <ion-list>
+          <ion-item *ngFor="let cliente of dadosClienteFiltrado">
+            <ion-chip color="{{cliente.cpf ? 'primary' : 'secondary'}}">
+              <ion-icon name="{{cliente.cpf ? 'person' : 'business'}}"></ion-icon>
+            </ion-chip>
+            <ion-label class="ion-text-wrap">{{cliente.nome}}</ion-label>
+            <ion-button color="light" routerLink="/menu/equipamentos/{{cliente.id}}">
+              <ion-icon name="hardware-chip"></ion-icon>
+            </ion-button>
+            <ion-button color="medium" routerLink="/menu/clientes/listaOrdensServico/{{cliente.id}}">
+              <ion-icon name="list-circle"></ion-icon>
+            </ion-button>
+            <ion-button color="primary" id="{{cliente.id}}" (click)="exibeModalInfo($event)">
+              <ion-icon name="search-sharp"></ion-icon>
+            </ion-button>
+            <ion-button color="warning" id="{{cliente.id}}" (click)="exibeModalEdit($event)">
+              <ion-icon name="create-sharp"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed" class="ion-margin-end">
+    <ion-fab-button (click)="exibeModalCadastro()" color="primary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
