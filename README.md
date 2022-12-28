@@ -14,9 +14,9 @@ Requisitos:
 - Criar, Alterar e Deletar funcionários.
 - Criar, Alterar e Deletar clientes.
 - Criar, Alterar e Deletar produtos
-* Exibição e Alteração de Ordens de Serviço e Dados Pessoais Online
+- Exibição e Alteração de Ordens de Serviço e Dados Pessoais Online*
 
-* Serviço será implementado em versões posteriores pois dependem de alterações na infra-estrutura.
+* Serviço será implementado em versões posteriores pois dependem de alterações na infra-estrutura.*
 
 A parte principal é a ordem de serviço, onde deve ter também serviços de impressão de comprovantes.
 
