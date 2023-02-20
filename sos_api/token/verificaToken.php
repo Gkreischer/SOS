@@ -3,28 +3,13 @@
 require_once(dirname(__FILE__) .  '/../pdo/Sql.php');
 require_once(dirname(__FILE__) . './../cors/cors.php');
 
-// if($token == null || strlen($token) < 32){
-//     header('Location:login.html');
-// }
-
-// $query = "SELECT token FROM funcionarios WHERE email = '$email'";
-
-// try
-// {
-//     $sql = new Sql();
-//     $tokenResult = $sql->select($query);
-//     if(count($tokenResult) === null || $tokenResult[0]['token'] !== $token){
-//         header('Location: login.html');
-//     }
-// } catch(PDOException $e){
-//     throw new Error($e->getMessage(), (int) $e->getCode());
-// }
-
 $headers = apache_request_headers();
 
-if(isset($headers['Authorization']) && isset($headers['idUsuario'])){
+
+if(isset($headers['Authorization']) && isset($headers['Idusuario'])){
     $token = $headers['Authorization'];
-    $id_usuario = $headers['idUsuario'];
+    $id_usuario = $headers['Idusuario'];
+  	
 } else {
     // TO PRINT RECEIPTS
     $token = $_GET['token'];
@@ -48,8 +33,3 @@ function verificaToken($token, $id_usuario) {
 
 verificaToken($token, $id_usuario);
 
-// if (isset($token) && isset($id_usuario)) {
-//     echo 'token e id encontrados';
-// } else {
-//     echo 'nao encontrado';  
-// }
