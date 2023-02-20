@@ -22,4 +22,6 @@ A parte principal é a ordem de serviço, onde deve ter também serviços de imp
 
 O banco de dados foi modelado no dbdiagram.io, implementado no MariaDB utilizando um servidor PHP para controlar o fluxo de informações.
 
-
+Acesso: https://sos.gkdeveloper.com.br
+email: admin@email.com
+password: admin12345
