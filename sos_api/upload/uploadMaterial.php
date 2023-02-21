@@ -28,7 +28,7 @@ function gravaCaminhoImagem($cond = false, $file_name, $file_ext, $id_material)
 
         $query = "UPDATE materiais SET caminho_imagem = :caminho_imagem, atualizado_em = :atualizado_em WHERE id = :id_material";
 
-        $caminho_imagem = $protocol . $server_addr . "/sos_api/images/material/" . $file_name . '.' . $file_ext;
+        $caminho_imagem = $protocol . $server_addr . "/api/images/material/" . $file_name . '.' . $file_ext;
 
         $mariadb = new Sql();
         $result_caminho_imagem = $mariadb->Sqlquery($query, [
