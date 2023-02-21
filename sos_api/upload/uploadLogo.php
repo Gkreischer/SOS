@@ -21,7 +21,7 @@ function gravaCaminhoLogo($cond = false, $file_name, $file_ext)
 
         $server_addr = EXTERNAL_IP;
 
-        $caminho_imagem = $protocol . $server_addr . "/sos_api/images/logo/" . $file_name . '.' . $file_ext;
+        $caminho_imagem = $protocol . $server_addr . "/api/images/logo/" . $file_name . '.' . $file_ext;
 
         $query = "UPDATE configuracao SET caminho_logo = :caminho_logo WHERE id = :id";
 
