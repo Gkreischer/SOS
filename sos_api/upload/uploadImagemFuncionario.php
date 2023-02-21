@@ -21,7 +21,7 @@ function gravaCaminhoImagem($cond = false, $file_name, $file_ext, $id_funcionari
 
         $server_addr = EXTERNAL_IP;
 
-        $caminho_imagem = $protocol . $server_addr . "/sos_api/images/funcionarios/" . $file_name . '.' . $file_ext;
+        $caminho_imagem = $protocol . $server_addr . "/api/images/funcionarios/" . $file_name . '.' . $file_ext;
 
         $query = "UPDATE funcionarios SET caminho_imagem = :caminho_imagem WHERE id = :id";
 
